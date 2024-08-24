@@ -2,47 +2,20 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 
-
-import passport from "passport";
-import { Strategy } from "passport-local";
-import GoogleStrategy from "passport-google-oauth2";
-import session from "express-session";
-import env from "dotenv";
-
-
-
-
-
-
-
-
-
 const app = express();
 const port = 3000;
-env.config();
 
 const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-  });
+  user: "postgres",
+  host: "localhost",
+  database: "BookTalk",
+  password: "astipur6542",
+  port: 5432,
+});
 db.connect();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
-app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      resave: false,
-      saveUninitialized: true,
-    })
-  );
-
-
-
 
 app.get('/',async(req,res)=>{
 
@@ -53,24 +26,26 @@ app.get('/',async(req,res)=>{
     // res.render("index.ejs");
 })
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
+
+app.post('/search',async(req,res)=>{
+
+    // console.log(req.body.query);
+    let bookName=req.body.query;
+    // get book data
+   let fromDb=await(db.query("Select * from books where name like '%' || $1 || '%';",[bookName]));
+    let bookData = fromDb.rows[0];
+    let bookId=bookData.id;
+    // get discussions using the bookId
+    fromDb=await(db.query("select * from discussions where book_id = ($1)",[bookId]));
+    let discussion=fromDb.rows;
+
+    // console.log(discussion);
+
+    res.render("book.ejs",{book:bookData,discussions:discussion});
+    // res.render("index.ejs");
 
 
-app.get("/logout", (req, res) => {
-    req.logout(function (err) {
-      if (err) {
-        return next(err);
-      }
-      res.redirect("/");
-    });
-  });
-
-
+})
 
 // Route to get replies for a specific discussion
 // ingternal ajax routye
@@ -111,30 +86,6 @@ app.get('/get-replies', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
-
-
-app.post('/search',async(req,res)=>{
-
-    // console.log(req.body.query);
-    let bookName=req.body.query;
-    // get book data
-   let fromDb=await(db.query("Select * from books where name like '%' || $1 || '%';",[bookName]));
-    let bookData = fromDb.rows[0];
-    let bookId=bookData.id;
-    // get discussions using the bookId
-    fromDb=await(db.query("select * from discussions where book_id = ($1)",[bookId]));
-    let discussion=fromDb.rows;
-
-    // console.log(discussion);
-
-    res.render("book.ejs",{book:bookData,discussions:discussion});
-    // res.render("index.ejs");
-
-
-})
-
-
 
 app.post('/post-discuss', async (req, res) => {
 
@@ -227,49 +178,6 @@ app.post('/post-reply', async (req, res) => {
 //         res.status(500).json({ error: 'Internal Server Error' });
 //     }
 // });
-
-
-
-
-passport.use(
-    "google",
-    new GoogleStrategy(
-      {
-        clientID: process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL: "http://localhost:3000/auth/google/secrets",
-        userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo",
-      },
-      async (accessToken, refreshToken, profile, cb) => {
-        try {
-          // console.log(profile);
-          const result = await db.query("SELECT * FROM users WHERE email = $1", [
-            profile.email,
-          ]);
-          if (result.rows.length === 0) {
-            const newUser = await db.query(
-              "INSERT INTO users (email, password) VALUES ($1, $2)",
-              [profile.email, "google"]
-            );
-            return cb(null, newUser.rows[0]);
-          } else {
-            return cb(null, result.rows[0]);
-          }
-        } catch (err) {
-          return cb(err);
-        }
-      }
-    )
-  );
-  passport.serializeUser((user, cb) => {
-    cb(null, user);
-  });
-  
-  passport.deserializeUser((user, cb) => {
-    cb(null, user);
-  });
-  
-
 
 app.listen(port, () => {
     console.log(`Server running on http://localhost:${port}`);
