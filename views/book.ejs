@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= book.name %></title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <h1><%= book.name %> by <%= book.author %></h1>
+    </header>
+    <main>
+        <!-- Book Details Section -->
+        <section>
+            <h2>Book Details</h2>
+            <p><strong>Author:</strong> <%= book.author %></p>
+            <p><strong>Description:</strong> <%= book.description %></p>
+        </section>
+        
+        <!-- Discussions Section -->
+        <section>
+            <h2>Discussions</h2>
+            
+            <!-- Input for the reply text -->
+            <input type="text" id="discussText" placeholder="Type your reply here">
+            
+            <!-- Button to submit the reply -->
+            <button onclick="sendDiscussion(<%= book.id %>)">Reply</button>
+
+
+            
+            <% if (discussions && discussions.length > 0) { %>
+                <ul>
+                    <% discussions.forEach(discussion => { %>
+                        <li>
+                            <p><strong>User:</strong> <%= discussion.user_id %></p>
+                            <p><strong>Text:</strong> <%= discussion.text %></p>
+
+
+                            
+
+                            <input type="text" id="replyText-<%= discussion.discuss_id %>" placeholder="Type your reply here">
+<button onclick="sendReply(<%= discussion.discuss_id %>, null)">Reply</button>
+
+            
+
+
+
+                            <button onclick="loadReplies(<%= discussion.discuss_id %>)">Show Replies</button>
+        
+                            <!-- replies-DiscussionId -->
+                            <div id="replies-<%= discussion.discuss_id %>" style="display:inline-block;">
+                                <!-- Replies will be loaded here -->
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p>No discussions available for this book.</p>
+            <% } %>
+        </section>
+        
+        
+        
+        <!-- Review Link Section -->
+        <section>
+            <h2>Reviews</h2>
+            <a href="/book/<%= book.id %>/reviews">View Reviews</a>
+        </section>
+    </main>
+
+
+     <script src="/js/book.js"></script>
+
+
+</body>
+</html>
