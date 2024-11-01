@@ -1,0 +1,201 @@
+<header>
+    <div class="navbar">
+        <div class="pewpew"></div>
+        <div class="navbar-center">
+            <a href="/">
+                <div class="logo-text">
+                    <span>book</span><span>talk</span>
+                </div>
+            </a>
+
+            <!-- Home link -->
+            <a href="/" class="home-link">Home</a>
+            <!-- <a href="/profile" class="home-link">Profile</a> -->
+
+            <!-- Search bar -->
+            <div class="search-bar">
+                <form action="/search" method="post">
+                    <input type="text" name="query" placeholder="Search for books or authors...Use first name of book" class="search-input">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Authentication logic -->
+        <div class="auth-section">
+            <% if (!isAuthenticated) { %>
+                <a href="/login">Sign In</a>
+            <% } else { %> <!-- Corrected else syntax -->
+                <div class="logout-btn">
+                    <a href="/logout" >Logout</a>
+                </div>
+            <% } %>
+        </div>
+        
+    </div>
+</header>
+
+<style>
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f3f1ea; /* Updated background color */
+        padding: 10px;
+    }
+
+    .navbar-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 40px; /* Adjusted gap between logo, home, and search bar */
+        flex-grow: 1; /* Allows centering within the flex container */
+    }
+
+    /* Adjusting logo text size and hover effect */
+    .logo-text {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 2.5rem;
+        font-weight: 100;
+        color: #5A463A;
+        letter-spacing: -0.02em;
+        padding-right: 20px; /* Added spacing between logo and links */
+        transition: background-color 0.3s ease; /* Smooth transition effect */
+    }
+
+    .logo-text:hover {
+        background-color: #382110; /* Change background color on hover */
+    }
+
+    .logo-text span:nth-child(1) {
+        color: #C2B7AA; /* 'book' part */
+    }
+
+    .logo-text span:nth-child(2) {
+        color: #5A463A; /* 'talk' part */
+    }
+
+    /* Home and Profile link styling */
+    .home-link {
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        color: #333;
+        font-size: 1.2rem;
+        margin-left: 20px; /* Space between Home and Profile */
+        padding: 10px 15px; /* Adds some padding around the text */
+        transition: color 0.3s ease; /* Smooth transition for hover effect */
+    }
+
+    .home-link:hover {
+        color: #5A463A; /* Changes color of links on hover */
+    }
+
+    /* Search bar adjustments */
+    .search-bar form {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        width: 400px; /* Increased the width of the search bar */
+    }
+
+    .search-bar button {
+        margin-left: 5px;
+        padding: 5px 10px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 3px;
+    }
+
+    /* Authentication section styling */
+    .auth-section {
+        display: flex;
+        align-items: center;
+    }
+
+    .auth-section a {
+        font-family: Arial, sans-serif;
+        text-decoration: none;
+        color: #333;
+        font-size: 1rem;
+        margin-right: 10px;
+    }
+
+    .profile-picture {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .pewpew {
+        display: block;
+        background-color: #3b4538;
+    }
+    .search-bar form {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 25px; /* Rounded edges for the entire search bar */
+        padding: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    }
+
+    .search-input {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 25px; /* Rounded edges for the input */
+        outline: none;
+        width: 400;
+        font-size: 1rem;
+        color: #333;
+        background-color: #f9f9f9; /* Light background for the input */
+        transition: background-color 0.3s ease, width 0.3s ease; /* Smooth transition for focus effect */
+    }
+
+    .search-input:focus {
+        background-color: white; /* Changes background on focus */
+        width: 450px; /* Slightly expands on focus */
+    }
+
+    .search-bar button {
+        margin-left: 10px;
+        padding: 10px 20px;
+        background-color: #333;
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .search-bar button:hover {
+        background-color: #555; /* Slightly lighter on hover */
+    }
+    .logout-btn a{
+  position: relative;
+  z-index: 9999;
+  background-color: #5A463A; /* Brown color to match the design */
+  color: white;
+  padding: 8px 15px; /* Reduced padding to make the button smaller */
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  font-size: 16px; /* Ensure text size is consistent */
+  border: 1px solid #5a463a; /* Subtle border to blend with the design */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth transition for hover effects */
+}
+
+.logout-btn a:hover {
+  background-color: #C2B7AA; /* Light brown/cream color for hover effect */
+  color: #5A463A; /* Change text color on hover */
+  transform: scale(1.05); /* Slight zoom effect on hover for better UX */
+}
+
+</style>

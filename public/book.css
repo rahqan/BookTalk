@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Merriweather:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Merriweather', serif;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin: 0;
+}
+
+/* General styles for desktop/tablet view */
+.book-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 50px;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for header */
+    border-radius: 10px; /* Rounded corners for a modern look */
+}
+
+.book-cover {
+    width: 300px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-info {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center; /* Center text content vertically */
+}
+
+.book-title {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2.7rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.book-author {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.book-summary {
+    font-family: 'Merriweather', serif;
+    margin-top: 20px;
+    line-height: 1.8;
+    text-align: justify;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #444;
+    overflow: hidden;
+}
+
+/* Expand/Collapse Button */
+#toggle-summary {
+    background-color: #6b705c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Merriweather', serif;
+    margin-top: 15px;
+}
+
+#toggle-summary:hover {
+    background-color: #a5a58d;
+}
+
+.book-meta {
+    font-size: 0.9rem;
+    color: #777;
+    font-family: 'Merriweather', serif;
+    margin-top: 15px;
+    text-align: center;
+}
+
+h2 {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 2rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    font-family: 'Merriweather', serif;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+button {
+    background-color: #6b705c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Merriweather', serif;
+}
+
+button:hover {
+    background-color: #a5a58d;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .book-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .book-cover {
+        margin-bottom: 20px;
+        width: 280px;
+    }
+
+    .book-info {
+        align-items: center;
+    }
+
+    .book-genres {
+        justify-content: center;
+    }
+}
+
+.book-summary-container {
+    height: 20vh; /* Initially, only show 20vh of the content */
+    overflow: hidden; /* Hide the rest of the content */
+    transition: height 0.5s ease-in-out; /* Smooth transition when expanding */
+}
+
+/* Full height will be dynamically set on click */
+.expanded {
+    height: auto; /* Full content will be shown when expanded */
+}
+

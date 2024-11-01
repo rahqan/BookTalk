@@ -1,78 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= book.name %></title>
-    <link rel="stylesheet" href="/styles.css">
+    <title>
+        <%= book.name %>
+    </title>
+    <link rel="stylesheet" href="/book.css">
 </head>
+<style>
+    /* Default input size */
+    input[type="text"] {
+        width: 300px;
+        height: 30px; /* Default height */
+        transition: width 0.3s ease, height 0.3s ease; /* Smooth transition */
+    }
+
+    /* Expanded input size when focused */
+    input[type="text"].expanded {
+        width: 600px;
+        height: 100px; /* Increased height to make it rectangular */
+    }
+</style>
+
+
 <body>
-    <header>
-        <h1><%= book.name %> by <%= book.author %></h1>
-    </header>
-    <main>
-        <!-- Book Details Section -->
-        <section>
-            <h2>Book Details</h2>
-            <p><strong>Author:</strong> <%= book.author %></p>
-            <p><strong>Description:</strong> <%= book.description %></p>
-        </section>
-        
-        <!-- Discussions Section -->
-        <section>
-            <h2>Discussions</h2>
+
+    <%- include("topBar.ejs" , { isAuthenticated:isAuthenticated } ) %>
+
+<main>
+                <div class="book-header">
+                    <!-- Use the image URL from the database -->
+                    <img src="<%= googleBooks.thumbnail %>" alt="Book Cover" class="book-cover">
+                    <div class="book-info">
+                        <!-- Fetch and display book details dynamically -->
+                        <h2 class="book-title">
+                            <%= book.name %>
+                        </h2>
+                        <p class="book-author">by <%= book.author %>
+                        </p>
+
+                        <!-- Shortened book summary with expand/collapse -->
+                        <!-- Book summary content -->
+                        <div id="book-summary" class="book-summary-container">
+                            <p class="book-summary">
+                                <%= googleBooks.description %>
+                            </p>
+                        </div>
+
+                        <!-- Button to toggle between "Read more" and "Read less" -->
+                        <button id="toggle-summary">Read more</button>
+
+                        <div class="book-meta">
+                            <p><strong>Discussions:</strong>
+                                <%= book.discussion_count %>
+                            </p>
+                            <p><strong>Reviews:</strong>
+                                <%= book.review_count %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+
+            <!-- Discussions Section -->
+            <% if (!isAuthenticated) { %>
+
+                <section class="login-section">
+                    <p>To view discussions, please <a href="/login" class="login-button">Login</a></p>
+                </section>
             
-            <!-- Input for the reply text -->
-            <input type="text" id="discussText" placeholder="Type your reply here">
-            
-            <!-- Button to submit the reply -->
-            <button onclick="sendDiscussion(<%= book.id %>)">Reply</button>
-
-
-            
-            <% if (discussions && discussions.length > 0) { %>
-                <ul>
-                    <% discussions.forEach(discussion => { %>
-                        <li>
-                            <p><strong>User:</strong> <%= discussion.user_id %></p>
-                            <p><strong>Text:</strong> <%= discussion.text %></p>
-
-
-                            
-
-                            <input type="text" id="replyText-<%= discussion.discuss_id %>" placeholder="Type your reply here">
-<button onclick="sendReply(<%= discussion.discuss_id %>, null)">Reply</button>
-
-            
-
-
-
-                            <button onclick="loadReplies(<%= discussion.discuss_id %>)">Show Replies</button>
-        
-                            <!-- replies-DiscussionId -->
-                            <div id="replies-<%= discussion.discuss_id %>" style="display:inline-block;">
-                                <!-- Replies will be loaded here -->
-                            </div>
-                        </li>
-                    <% }) %>
-                </ul>
             <% } else { %>
-                <p>No discussions available for this book.</p>
+            <section>
+                <h2>Discussions</h2>
+                <input type="text" id="discussText" placeholder="Type your reply here" onfocus="expandInput(this)">
+                <button onclick="sendDiscussion(<%= book.id %>)">Reply</button>
+            
+                <% if (discussions && discussions.length > 0) { %>
+                    <ul>
+                        <% discussions.forEach(discussion => { %>
+                            <li>
+                                <p><strong>User:</strong> <%= discussion.user_id %></p>
+                                <p><strong>Text:</strong> <%= discussion.text %></p>
+            
+                                <!-- Reply input for each discussion -->
+                                <input type="text" id="replyText-<%= discussion.discuss_id %>" 
+                                       placeholder="Type your reply here" 
+                                       onfocus="expandInput(this)" 
+                                       >
+                                <button onclick="sendReply(<%= discussion.discuss_id %>)">Reply</button>
+            
+                                <button onclick="loadReplies(<%= discussion.discuss_id %>)">Show Replies</button>
+                                <div id="replies-<%= discussion.discuss_id %>" style="display:inline-block;">
+                                    <!-- Replies will be loaded here -->
+                                </div>
+                            </li>
+                        <% }) %>
+                    </ul>
+                <% } else { %>
+                    <p>No discussions available for this book.</p>
+                <% } %>
+            </section>
+
             <% } %>
-        </section>
-        
-        
-        
-        <!-- Review Link Section -->
-        <section>
-            <h2>Reviews</h2>
-            <a href="/book/<%= book.id %>/reviews">View Reviews</a>
-        </section>
-    </main>
+            
+        </main>
+
+            <!-- Review Link Section -->
 
 
-     <script src="/js/book.js"></script>
+                <%- include("bottomBar.ejs") %>
+
+
+
+        <script>
+            // Toggle the description visibility
+            document.getElementById("toggle-summary").addEventListener("click", function () {
+                const bookSummary = document.getElementById("book-summary");
+
+                if (bookSummary.classList.contains("expanded")) {
+                    bookSummary.classList.remove("expanded");
+                    this.textContent = "Read more";
+                } else {
+                    bookSummary.classList.add("expanded");
+                    this.textContent = "Read less";
+                }
+            });
+        </script>
+
+        
+
+
+        <script>
+            function expandInput(input) {
+                input.classList.add('expanded');
+            }
+        
+            
+
+
+        </script>
+        <script src="/js/book.js"></script>
+
 
 
 </body>
+
+
 </html>

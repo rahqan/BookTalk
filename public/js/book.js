@@ -29,7 +29,7 @@ async function loadReplies(discussId, parentId = null) {
                         
             
 
-<input type="text" id="replyReplyText-${reply.id}" placeholder="Type your reply here">
+<input type="text" id="replyReplyText-${reply.id}" placeholder="Type your reply here" onfocus="expandInput(this)" >
 <button onclick="sendReply(${discussId}, ${reply.id})">Reply</button>
 
 
@@ -120,25 +120,21 @@ async function sendDiscussion(book_id) {
   } catch (error) {
     console.error("Error posting reply:", error);
   }
+  document.getElementById('discussText').value = '';
+  
 }
 
 async function sendReply(discuss_id, parent_id = null) {
   try {
-    // Get the reply text from the input field
+    let replyText;
 
-
-    
-    let replyText = document.getElementById(`replyText-${discuss_id}`).value;
-    if (parent_id!==null) {
+    if (parent_id === null) {
+      // If it's a reply to the main discussion, use the main reply input field
+      replyText = document.getElementById(`replyText-${discuss_id}`).value;
+    } else {
+      // If it's a reply to a specific reply, use the specific reply input field
       replyText = document.getElementById(`replyReplyText-${parent_id}`).value;
-      console.log("its workinggg shayd")
     }
-   
-
-    
-
-    console.log(`parent-id is ${parent_id}`);
-
 
     // Ensure the reply text is not empty
     if (!replyText.trim()) {
@@ -164,5 +160,12 @@ async function sendReply(discuss_id, parent_id = null) {
     }
   } catch (error) {
     console.error("Error posting reply:", error);
+  }
+
+  // Clear the input field after posting the reply
+  if (parent_id === null) {
+    document.getElementById(`replyText-${discuss_id}`).value = ''; // Clear the main discussion reply input
+  } else {
+    document.getElementById(`replyReplyText-${parent_id}`).value = ''; // Clear the specific reply input
   }
 }

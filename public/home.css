@@ -1,0 +1,171 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/* Main container for login box */
+.login-box {
+    width: 350px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    right: 10%; /* Move it to the right side of the screen */
+    top: 20%; /* Position it vertically around 20% from the top */
+    z-index: 100; /* Make sure it overlays on top of other content */
+    text-align: center;
+}
+
+
+/* Button styles similar to goodreads login box */
+.login-box a {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.login-box .amazon-btn {
+    background-color: #f0c14b;
+    border: 1px solid #a88734;
+}
+
+.login-box .apple-btn {
+    background-color: black;
+    color: white;
+    border: none;
+}
+
+.login-box .email-btn {
+    background-color: #7b3f00;
+    color: white;
+    border: none;
+}
+
+.login-box a:hover {
+    opacity: 0.9;
+
+}
+
+/* Profile image when authenticated */
+.login-box img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+
+/* Rant/Discuss Section */
+.rant-box {
+    height: 40vh;
+    width: 80%;
+    margin: 20px auto;
+    padding: 30px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.rant-box img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+.rant-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Search Section */
+.search-bar {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    text-align: center;
+}
+.search-bar input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    font-size: 16px;
+}
+.search-bar button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0073bb;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.search-bar button:hover {
+    background-color: #005fa3;
+}
+
+/* Main Content Layout */
+.main-content {
+    display: flex;
+    width: 80%;
+    margin: 20px auto;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 30%;
+    margin-right: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.sidebar h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+.sidebar li {
+    margin-bottom: 10px;
+}
+
+/* Book Results Section */
+.book-results {
+    width: 70%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.book-results h2 {
+    font-size: 20px;
+}
+.book-results p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Footer Bar */
+
+
+.logo{
+    display: block;
+    
+}

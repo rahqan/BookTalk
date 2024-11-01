@@ -1,8 +1,14 @@
 CREATE TABLE Books (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    description TEXT
+
+
+    normalized_name TEXT,
+
+    discussion_count INT,
+    reviews_count INT,
+
+
 );
 
 CREATE TABLE Users (
